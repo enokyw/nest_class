@@ -1,22 +1,18 @@
-import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateResourceDto } from './dto/create-resource.dto';
 import { UpdateResourceDto } from './dto/update-resource.dto';
-import { PrismaClient } from '@prisma/client';
+import { PrismaService } from 'src/common/prisma.service';
 
 @Injectable()
-export class ResourcesService extends PrismaClient implements OnModuleInit {
-  private readonly logger = new Logger('ResourcesService');
+export class ResourcesService {
+  constructor(private readonly db: PrismaService) {}
 
-  onModuleInit() {
-    this.$connect();
-    this.logger.log('Database connected');
-  }
   create(createResourceDto: CreateResourceDto) {
     return 'This action adds a new resource';
   }
 
   findAll() {
-    return `This action returns all resources`;
+    return this.db.skill.findMany();
   }
 
   findOne(id: number) {
