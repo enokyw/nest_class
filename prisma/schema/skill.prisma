@@ -1,0 +1,42 @@
+model SkillCategory {
+    id            String  @id @default(uuid())
+    title         String
+    handle        String  @unique
+    featuredImage Json?
+    description   String?
+    seo           Json?
+    available     Boolean @default(true)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    skills Skill[]
+}
+
+model Skill {
+    id              String  @id @default(uuid())
+    title           String
+    handle          String  @unique
+    description     String?
+    featuredImage   Json?
+    visibilityCount Int     @default(0)
+    url             String
+    seo             Json?
+    available       Boolean @default(true)
+
+    category    SkillCategory     @relation(fields: [categoryId], references: [id])
+    categoryId  String
+    collections SkillCollection[]
+}
+
+model SkillCollection {
+    id            String  @id @default(uuid())
+    title         String
+    handle        String  @unique
+    description   String?
+    featuredImage Json?
+    seo           Json?
+    available     Boolean @default(true)
+
+    skills Skill[]
+}
